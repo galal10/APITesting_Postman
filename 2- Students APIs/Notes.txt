@@ -1,0 +1,6 @@
+Steps : 
+1- Download & Install NodeJs & npm
+2- Install json-server using the command --> $npm install -g json-server
+3- Create .json file containing your own data
+4- Run the following command to ensure that API's are up and running --> $json-server --watch students.json
+5- Don't close the cmd until you've finished your work and tested all the APIs.
