@@ -1,0 +1,242 @@
+{
+	"info": {
+		"_postman_id": "53fabe3a-1aa1-4dd8-bf92-cdf6fb0b20a8",
+		"name": "5- GoRest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20453146",
+		"_collection_link": "https://www.postman.com/lively-crater-692119/workspace/pavancourse/collection/20453146-53fabe3a-1aa1-4dd8-bf92-cdf6fb0b20a8?action=share&source=collection_link&creator=20453146"
+	},
+	"item": [
+		{
+			"name": "Create a new user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const Random = Math.random().toString(36).substring(2);\r",
+							"\r",
+							"pm.collectionVariables.set(\"userName\", \"Galal\");\r",
+							"pm.collectionVariables.set(\"email\", Random+\"@test.com\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.collectionVariables.set(\"id\", jsonData.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"{{userName}}\",\r\n    \"gender\" : \"male\",\r\n    \"email\" : \"{{email}}\",\r\n    \"status\" : \"active\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/public/v2/users",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Validating Json fields\", () => {\r",
+							"    pm.expect(jsonData.id).to.eql(pm.collectionVariables.get(\"id\"));\r",
+							"    pm.expect(jsonData.name).to.eql(pm.collectionVariables.get(\"userName\"));\r",
+							"    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get(\"email\"));\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseURL}}/public/v2/users/{{id}}",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User details",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const Random = Math.random().toString(36).substring(2);\r",
+							"\r",
+							"pm.collectionVariables.set(\"userName\", \"Galal Nasser\");\r",
+							"pm.collectionVariables.set(\"email\", Random+\"@test.com\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Validating Json fields\", () => {\r",
+							"    pm.expect(jsonData.id).to.eql(pm.collectionVariables.get(\"id\"));\r",
+							"    pm.expect(jsonData.name).to.eql(pm.collectionVariables.get(\"userName\"));\r",
+							"    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get(\"email\"));\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"{{userName}}\",\r\n    \"email\" : \"{{email}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/public/v2/users/{{id}}",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.unset(\"id\");\r",
+							"pm.collectionVariables.unset(\"userName\");\r",
+							"pm.collectionVariables.unset(\"email\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/public/v2/users/{{id}}",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{vault:authorization-secret}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
