@@ -96,13 +96,13 @@ pipeline {
 
     stage('Postman CLI Login') {
       steps {
-        bat 'postman login --with-api-key PMAK-6878d0269f57610001786654-a59f6a5e0b6b2294ff4eab2baef34b0abd'
+        bat 'postman login --with-api-key {Place Your API-Key Here}'
       }
     }
 
     stage('Running collection') {
       steps {
-        bat 'postman collection run "20453146-6483ddb8-8f8b-4cf9-a7f3-93299babdd5c" -d "D:\\Courses\\Testing\\Pavan - API Testing\\Sec 2\\online Store API\\product_data.json" -g "D:\\Courses\\Testing\\Pavan - API Testing\\Sec 2\\online Store API\\workspace.postman_globals.json" -r html '
+        bat 'postman collection run {Place Your Collection ID Here} -d {Place Your Data File Here} -g {Place Your Global Variables Here (If Any)} -r html '
       }
     }
   }
