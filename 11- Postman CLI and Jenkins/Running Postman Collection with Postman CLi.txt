@@ -1,0 +1,45 @@
+https://documenter.getpostman.com/view/20453146/2sB34kCddr
+	==== Postman CLi ====
+
+"it's seperate component from postman, so we should install it"
+
+1- share collection
+2- Sign-in & out of postman
+3- requires APi key & Collection Id
+
+
+postman CLi commands :
+postman login --with-api-key PMAK-6878d0269f57610001786654-a59f6a5e0b6b2294ff4eab2baef34b0abd
+postman collection run 20453146-6483ddb8-8f8b-4cf9-a7f3-93299babdd5c -d product_data.json -g workspace.postman_globals.json
+postman collection run 20453146-6483ddb8-8f8b-4cf9-a7f3-93299babdd5c -d product_data.json -g workspace.postman_globals.json -r html
+
+postman Jenkins commands:
+# Jenkins runs pipelines on the host system that it is setup on. To run it on windows
+# install the server on a windows machine by following https://www.jenkins.io/doc/book/installing/windows/
+# once it has been setup add the below step to your pipeline file to run automated tests using Postman CLI.
+
+pipeline {
+  agent any
+
+  tools {nodejs "myNodeJS"}
+
+  stages {
+    stage('Install Postman CLI') {
+      steps {
+        bat 'powershell.exe -NoProfile -InputFormat None -ExecutionPolicy AllSigned -Command "[System.Net.ServicePointManager]::SecurityProtocol = 3072; iex ((New-Object System.Net.WebClient).DownloadString(\'https://dl-cli.pstmn.io/install/win64.ps1\'))"'
+      }
+    }
+
+    stage('Postman CLI Login') {
+      steps {
+        bat 'postman login --with-api-key PMAK-6878d0269f57610001786654-a59f6a5e0b6b2294ff4eab2baef34b0abd'
+      }
+    }
+
+    stage('Running collection') {
+      steps {
+        bat 'postman collection run "20453146-6483ddb8-8f8b-4cf9-a7f3-93299babdd5c" -d "D:\\Courses\\Testing\\Pavan - API Testing\\Sec 2\\online Store API\\product_data.json" -g "D:\\Courses\\Testing\\Pavan - API Testing\\Sec 2\\online Store API\\workspace.postman_globals.json" -r html '
+      }
+    }
+  }
+}
